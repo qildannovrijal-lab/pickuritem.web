@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>PickurItem Mini Commerce</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> </head>
+
+<body>
+
+<header id="appHeader">
+    <h1>PickurItem</h1>
+    <div class="header-actions" id="authButtons"> 
+        <button onclick="goto('loginPage')">Login</button>
+        <button onclick="goto('registerPage')">Daftar</button>
+    </div>
+    <div class="header-actions hidden" id="mainButtons"> 
+        <button id="headerHistoryButton" onclick="goto('orderHistoryPage')" style="background: var(--info-color);">Riwayat Order</button>
+        <button id="headerCartButton" onclick="goto('cartPage')" style="background: var(--primary-color);">Keranjang (0)</button>
+        <button onclick="logout()" class="secondary" style="background: var(--error-color);">Logout</button>
+    </div>
+</header>
+
+<div class="container">
+
+    <section id="loginPage">
+        <div class="auth-header">
+            <span class="logo-icon">🛍️</span>
+            <h1>PickurItem</h1>
+        </div>
+        <h2>Login ke Akun Anda</h2>
+        <p id="loginError" class="error"></p>
+        <input id="loginEmail" placeholder="Email">
+        <input id="loginPass" type="password" placeholder="Password">
+        <button onclick="login()">Masuk</button>
+        <p>Belum punya akun? 
+            <a href="#" onclick="goto('registerPage')">Daftar Sekarang</a>
+        </p>
+    </section>
+
+    <section id="registerPage" class="hidden">
+        <div class="auth-header">
+            <span class="logo-icon">🛍️</span>
+            <h1>PickurItem</h1>
+        </div>
+        <h2>Daftar Akun Baru</h2>
+        <p id="regError" class="error"></p>
+        <p id="regSuccess" class="success"></p>
+        <input id="regName" placeholder="Nama Lengkap">
+        <input id="regEmail" placeholder="Email">
+        <input id="regPass" type="password" placeholder="Password (Min 6 Karakter)">
+        <input id="regPass2" type="password" placeholder="Ulangi Password">
+        <button onclick="register()">Buat Akun</button>
+        <p>Sudah punya akun?
+            <a href="#" onclick="goto('loginPage')">Login</a>
+        </p>
+    </section>
+
+    <section id="homePage" class="hidden">
+        <div class="auth-header">
+            <span class="logo-icon" style="color: var(--primary-color);">🛍️</span>
+            <h1 style="color: white;">PickurItem</h1>
+        </div>
+        
+        <h2>🛒 Semua Produk</h2>
+        
+        <div id="filterBar">
+            <input type="text" id="searchKeyword" placeholder="Cari Produk..." oninput="renderProducts()">
+            
+            <label for="categoryFilter">Kategori:</label>
+            <select id="categoryFilter" onchange="renderProducts()">
+                <option value="all">Semua</option>
+                <option value="fashion">Fashion</option>
+                <option value="aksesori">Aksesori</option>
+                <option value="perkakas">Perkakas</option>
+                <option value="lainnya">Lainnya</option>
+            </select>
+            
+            <label for="sortOrder">Urutkan:</label>
+            <select id="sortOrder" onchange="renderProducts()">
+                <option value="default">Terbaru</option>
+                <option value="price_asc">Harga Termurah</option>
+                <option value="price_desc">Harga Termahal</option>
+            </select>
+        </div>
+        
+        <div id="productList" class="product-grid">
+            </div>
+    </section>
+
+    <section id="detailPage" class="hidden" style="max-width: 800px; margin: 0 auto; background: var(--card-background); padding: 20px; border-radius: 10px; color: #333;">
+        <button onclick="goto('homePage')" class="secondary" style="width: auto; padding: 5px 10px; margin-bottom: 20px;">← Kembali</button>
+        <h2 id="detailName" style="color: var(--navy-dark);"></h2>
+        <img id="detailImg" style="width:100%;height:300px;object-fit:cover;border-radius:10px;">
+        <p id="detailPrice" style="font-size: 1.2rem; font-weight: 700; color: var(--error-color);"></p>
+        <p id="detailDesc"></p>
+        
+        <div class="detail-actions" style="display: flex; gap: 10px; align-items: center;">
+            <input type="number" id="quantityInput" class="quantity-input" value="1" min="1" style="width: 100px; margin: 0;">
+            <button onclick="addCartFromDetail()" style="flex-grow: 1;">➕ Tambah ke Keranjang</button>
+        </div>
+
+        <hr style="margin: 30px 0; border-top: 1px solid #ddd;">
+        
+        <div id="reviewSection">
+            <h3 style="color: var(--navy-dark);">⭐️ Ulasan Produk (<span id="reviewCount">0</span>)</h3>
+            <div id="reviewList">
+                </div>
+            
+            <h4 style="margin-top: 25px; color: var(--navy-dark);">Berikan Ulasan Anda:</h4>
+            <p id="reviewError" style="color: var(--error-color); font-size: 0.9rem;"></p>
+            <textarea id="reviewText" placeholder="Tulis ulasan Anda di sini... (minimal 10 karakter)"></textarea>
+            <button onclick="addReview()">Kirim Ulasan</button>
+        </div>
+    </section>
+
+    <section id="cartPage" class="hidden">
+        <h2>🛒 Keranjang Belanja</h2>
+        <div id="cartList"></div>
+        <p id="cartTotal" style="font-size: 1.2rem; font-weight: 700; text-align: right; margin-top: 20px;">Total: Rp 0</p>
+        
+        <button onclick="goto('checkoutPage')" style="margin-top: 10px;">Lanjut ke Checkout</button>
+        <button onclick="goto('homePage')" class="secondary" style="margin-top:10px;">Lanjutkan Belanja</button>
+    </section>
+
+    <section id="checkoutPage" class="hidden" style="max-width: 600px; margin: 0 auto;">
+        <h2>📦 Checkout</h2>
+        <div style="background: var(--card-background); padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: right; color: #333;">
+            Total Pembayaran: <span id="checkoutTotal" style="font-weight: 700; font-size: 1.4rem; color: var(--error-color);"></span>
+        </div>
+
+        <h3>1. Alamat Pengiriman</h3>
+        <textarea id="alamat" rows="4" placeholder="Alamat Pengiriman Lengkap"></textarea>
+        
+        <h3>2. Metode Pembayaran</h3>
+        <div id="paymentMethods">
+            <div class="payment-option selected" onclick="selectPayment('transfer')">
+                <input type="radio" name="payment" value="transfer" checked> Transfer Bank (BCA/Mandiri)
+            </div>
+            <div class="payment-option" onclick="selectPayment('gopay')">
+                <input type="radio" name="payment" value="gopay"> E-Wallet (Gopay/OVO)
+            </div>
+            <div class="payment-option" onclick="selectPayment('cod')">
+                <input type="radio" name="payment" value="cod"> COD (Bayar di Tempat)
+            </div>
+        </div>
+        
+        <p id="checkoutError" class="error"></p>
+        <button onclick="finishOrder()">Buat Pesanan dan Bayar</button>
+        <button onclick="goto('cartPage')" class="secondary" style="margin-top:10px;">Kembali ke Keranjang</button>
+    </section>
+    
+    <section id="orderConfirmationPage" class="hidden" style="max-width: 600px; margin: 0 auto; text-align: center; background: var(--card-background); padding: 30px; border-radius: 10px; color: #333;">
+        <h2>✅ Pesanan Berhasil Dibuat!</h2>
+        <p>Terima kasih **<span id="confirmUserName"></span>**! Pesanan Anda telah diterima.</p>
+        <div class="order-card" style="text-align: left; background: #f8f9fa; border: 1px dashed var(--primary-color); padding: 15px; border-radius: 8px;">
+            <h3>Rincian Pembayaran</h3>
+            <p>Kode Pesanan: <b>#<span id="confirmOrderId"></span></b></p>
+            <p>Metode Pembayaran: <span id="confirmPaymentMethod"></span></p>
+            <p style="font-size: 1.2rem;">Total Belanja: <b style="color: var(--error-color);"><span id="confirmTotal"></span></b></p>
+            <p id="confirmInstructions" style="background: #fff3cd; padding: 10px; border-radius: 5px; color: #856404; font-size: 0.9rem;"></p>
+        </div>
+        <p style="margin-top: 20px;">Anda bisa melihat status pesanan di halaman Riwayat Order.</p>
+        <button onclick="goto('orderHistoryPage')">Lihat Status Pesanan</button>
+        <button onclick="goto('homePage')" class="secondary" style="margin-top:10px;">Lanjutkan Belanja</button>
+    </section>
+
+    <section id="orderHistoryPage" class="hidden">
+        <h2>⏳ Riwayat Order</h2>
+        <div id="orderList">
+            <p style="text-align:center;" id="noOrderMessage">Anda belum memiliki riwayat pesanan.</p>
+        </div>
+        <button onclick="goto('homePage')" class="secondary" style="margin-top:10px;">Kembali ke Beranda</button>
+    </section>
+
+</div>
+
+<div id="toastContainer"></div>
+
+<script src="script.js"></script>
+<script>
+    // LOGIKA PERSISTENCE & NAVIGATION (Wajib di sini untuk mengontrol DOM)
+    
+    const allSections = document.querySelectorAll('section');
+    window.handleNavigation = function(pageId) {
+        allSections.forEach(page => page.classList.add('hidden'));
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) {
+            targetPage.classList.remove('hidden');
+        }
+
+        // Panggilan fungsi dari script.js
+        if (pageId === 'homePage' && typeof renderProducts === 'function') {
+            simulateLoading(); // Tampilkan skeleton sebelum render
+            setTimeout(renderProducts, 500); // Tunda render 500ms untuk simulasi loading
+        }
+        if (pageId === 'cartPage' && typeof renderCart === 'function') renderCart();
+        if (pageId === 'checkoutPage' && typeof updateCheckout === 'function') updateCheckout();
+        if (pageId === 'orderHistoryPage' && typeof renderOrderHistory === 'function') renderOrderHistory();
+        
+        // Atur tampilan header
+        const authButtons = document.getElementById('authButtons');
+        const mainButtons = document.getElementById('mainButtons');
+        const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+
+        if (loggedUser) {
+            authButtons.classList.add('hidden');
+            mainButtons.classList.remove('hidden');
+        } else {
+            authButtons.classList.remove('hidden');
+            mainButtons.classList.add('hidden');
+        }
+        
+        // FIX SCROLL: Gulir ke atas untuk efek halaman baru
+        setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        }, 1); 
+    };
+
+    window.onload = function() {
+        if (typeof updateCartCount === 'function') updateCartCount();
+        const initialPage = JSON.parse(localStorage.getItem("loggedUser")) ? 'homePage' : 'loginPage';
+        window.handleNavigation(initialPage);
+    };
+    
+    function goto(page) {
+        if (window.handleNavigation) {
+            window.handleNavigation(page);
+        }
+    }
+    
+</script>
+
+</body>
+</html>

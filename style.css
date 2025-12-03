@@ -1,0 +1,308 @@
+/* TEMA: BIRU NAVY CERAH (DARK MODE BODY) */
+:root {
+    --primary-color: #0077b6;
+    --secondary-color: #6c757d;
+    --background-color: #1a1a2e;
+    --card-background: #ffffff;
+    --text-color: #eee;
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --navy-dark: #003366;
+    --info-color: #17a2b8;
+    --skeleton-color: #444; /* Warna abu-abu untuk skeleton */
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* PERHATIAN: Class ini menjamin elemen TERSEMBUNYI */
+.hidden {
+    display: none !important;
+}
+
+header {
+    background: var(--navy-dark);
+    padding: 15px 20px;
+    color: white;
+    text-align: left;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.header-actions button {
+    width: auto;
+    margin: 0 5px;
+    padding: 8px 15px;
+    background: var(--primary-color);
+}
+
+/* Mengatur agar tombol navigasi utama selalu menggunakan flex saat ditampilkan */
+#mainButtons:not(.hidden) {
+    display: flex;
+}
+
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* STYLE LOGIN/REGISTER */
+#loginPage, #registerPage {
+    max-width: 400px; 
+    margin: 80px auto; 
+    padding: 30px;
+    background: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    text-align: center;
+    color: #333;
+}
+#loginPage h2, #registerPage h2 {
+    margin-top: 0;
+    color: var(--navy-dark);
+}
+#loginPage a, #registerPage a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Logo dan Title Styling */
+.auth-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.auth-header h1 {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin: 5px 0 0;
+}
+
+.logo-icon {
+    font-size: 3rem;
+    color: var(--navy-dark);
+    line-height: 1;
+}
+
+/* INPUTS & BUTTONS */
+input:not([type="radio"]), textarea, button, select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+button {
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+    font-weight: 600;
+}
+
+button:hover {
+    background: #005f93;
+}
+
+button.secondary {
+    background: var(--secondary-color);
+}
+
+/* PRODUK GRID */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.product {
+    background: var(--card-background);
+    color: #333;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.product img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.product p {
+    font-size: 1.1rem; 
+    font-weight: 700; 
+    color: var(--error-color);
+}
+
+/* Filter Bar Styling */
+#filterBar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    background: #004d73; /* Warna gelap untuk kontras */
+    padding: 15px;
+    border-radius: 10px;
+    align-items: center;
+}
+
+#filterBar input, #filterBar select {
+    flex-grow: 1;
+    max-width: 300px;
+    margin: 0;
+    background: white;
+    color: #333;
+}
+#filterBar select {
+    max-width: 200px;
+}
+#filterBar label {
+    color: white;
+    font-weight: 500;
+}
+
+
+/* CART STYLES */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--card-background);
+    color: #333;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.cart-item-actions button {
+    width: auto;
+    margin: 0;
+    padding: 5px 10px;
+}
+
+.cart-item-qty-actions button {
+    width: 35px;
+    padding: 5px 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* Text Contrast & Totals */
+#homePage h2 {
+    color: white;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+/* Payment Options Card */
+.payment-option {
+    background: var(--card-background);
+    color: #333; 
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+.payment-option.selected {
+    border: 2px solid var(--primary-color);
+    background: #eef7ff;
+}
+
+/* --- TOAST NOTIFICATION STYLES --- */
+#toastContainer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2000;
+}
+
+.toast {
+    background-color: var(--success-color);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+    transform: translateY(20px);
+}
+.toast.error {
+    background-color: var(--error-color);
+}
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- LOADING SKELETON STYLES --- */
+@keyframes loading {
+    0% { background-position: -200px 0; }
+    100% { background-position: 200px 0; }
+}
+
+.skeleton-box {
+    background-color: var(--skeleton-color);
+    background-image: linear-gradient(90deg, var(--skeleton-color) 0px, rgba(255, 255, 255, 0.05) 40px, var(--skeleton-color) 80px);
+    background-size: 200px 100%;
+    animation: loading 1.5s infinite linear;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.skeleton-product {
+    padding: 15px;
+    background: #2b2b46; /* Latar belakang card gelap */
+    border-radius: 12px;
+}
+.skeleton-img {
+    height: 150px;
+    width: 100%;
+}
+.skeleton-text-lg {
+    height: 20px;
+    width: 80%;
+    margin-top: 10px;
+}
+.skeleton-text-sm {
+    height: 14px;
+    width: 50%;
+    margin-top: 10px;
+}
